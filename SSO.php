@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the statement is prepared successfully
     if ($stmt) {
         // Bind parameters to the prepared statement as strings
-        $stmt->bind_param("ssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $workWithRescue, $otherRescueContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $additionalComments, $liabilityAgree, $parentGuardian, $otherComments, $ref1, $emergencyContact);
+        $stmt->bind_param("ssssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $workWithRescue, $otherRescueContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $additionalComments, $liabilityAgree, $parentGuardian, $otherComments, $ref1, $emergencyContact);
 
         // Assign POST values to variables
         $fullName = $_POST['fullName'];
