@@ -54,6 +54,7 @@
                 <a href="strayanimalsconnect.php" class="nav-item nav-link text-black">SAC</a>
                 <a href="Lost&Found.php" class="nav-item nav-link text-black">Lost & Found</a>
                 <a href="SSO.php" class="nav-item nav-link text-black">SSO</a>
+                <a href="dashboard.php" class="nav-item nav-link text-black">Admin Dashboard</a>
 
         </div>
         <div class="d-flex align-items-center">

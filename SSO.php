@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the statement is prepared successfully
     if ($stmt) {
         // Bind parameters to the prepared statement as strings
-        $stmt->bind_param("ssssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $workWithRescue, $otherRescueContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $ref1, $additionalComments, $emergencyContact, $liabilityAgree, $parentGuardian, $otherComments);
+        $stmt->bind_param("ssssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $otherOrgs, $otherOrgsContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $ref1, $additionalComments, $emergencyContact, $liabilityAgree, $parentGuardian, $otherComments);
 
         // Assign POST values to variables
         $fullName = $_POST['fullName'];
@@ -28,10 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $allergies = $_POST['allergies'];
         $howHeard = $_POST['howHeard'];
         $whyVolunteer = $_POST['whyVolunteer'];
-        $workWithRescue = isset($_POST['workWithRescue']) ? $_POST['workWithRescue'] : '';        
-        $otherRescueContact = isset($_POST['otherRescueContact']) ? $_POST['otherRescueContact'] : '';
+        $otherOrgs = $_POST['otherOrgs'];        
+        $otherOrgsContact = $_POST['otherOrgsContact'];
         $petsOwned = $_POST['petsOwned'];
-        $animalExp = isset($_POST["animalExp"]) ? (is_array($_POST["animalExp"]) ? implode(", ", $_POST["animalExp"]) : $_POST["animalExp"]) : "";
+        if (isset($_POST["animalExp"]) && is_array($_POST["animalExp"])) {
+            // Sanitize and prepare the values to be inserted into the database
+            $animalExp = implode(", ", array_map(function ($value) {
+                return htmlspecialchars($value);
+            }, $_POST["animalExp"]));
         $otherSkills = isset($_POST["otherSkills"]) ? (is_array($_POST["otherSkills"]) ? implode(", ", $_POST["otherSkills"]) : $_POST["otherSkills"]) : "";
         $volunteerPref = isset($_POST["volunteerPref"]) ? (is_array($_POST["volunteerPref"]) ? implode(", ", $_POST["volunteerPref"]) : $_POST["volunteerPref"]) : "";
         $availability = isset($_POST["availability"]) ? (is_array($_POST["availability"]) ? implode(", ", $_POST["availability"]) : $_POST["availability"]) : "";
@@ -134,6 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="strayanimalsconnect.php" class="nav-item nav-link text-black">SAC</a>
                     <a href="Lost&Found.php" class="nav-item nav-link text-black">Lost & Found</a>
                     <a href="SSO.php" class="nav-item nav-link active text-black">SSO</a>
+                    <a href="dashboard.php" class="nav-item nav-link text-black">Admin Dashboard</a>
 
                 </div>
                 <div class="d-flex align-items-center">
@@ -1090,16 +1095,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-
     <!-- Your existing JavaScript libraries and code -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="path/to/bootstrap.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     
     <!-- Add your custom JavaScript code here -->
@@ -1175,6 +1178,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     </script>
-</body>
+    </body>
 
 </html>
