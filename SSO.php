@@ -6,12 +6,12 @@ require 'assets\Furrify-Web\db_connection.php';
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare an SQL statement for insertion
-    $stmt = $conn->prepare("INSERT INTO volunteer_details (Full_Name, Date_of_Birth, Street_Address, City, State, Home_Phone, Work_Phone, Cell_Phone, Email_Address, Employer_Job_Title, May_Contact_For_Reference, Allergies_Physical_Restrictions, How_Did_You_Hear, Why_Volunteer_At, Work_With_Rescue, Other_Rescue_Contact, Pets_Currently_Owned, Animal_Experience, Other_Experience, Volunteer_Work_Preferences, Availability, Volunteer_Off_Premises,Reference_1, Additional_Comments, Emergency_Contact, Liability_Waiver_Agreement, Parent_Guardian_Permission, Other_Comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO volunteer_details (Full_Name, Date_of_Birth, Street_Address, City, State, Home_Phone, Work_Phone, Cell_Phone, Email_Address, Employer_Job_Title, May_Contact_For_Reference, Allergies_Physical_Restrictions, How_Did_You_Hear, Why_Volunteer_At, Work_With_Rescue, Other_Rescue_Contact, Pets_Currently_Owned, Animal_Experience, Other_Experience, Volunteer_Work_Preferences, Availability, Volunteer_Off_Premises,Reference_1, Additional_Comments, Emergency_Contact, Liability_Waiver_Agreement, Parent_Guardian_Permission, Other_Comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Check if the statement is prepared successfully
     if ($stmt) {
         // Bind parameters to the prepared statement as strings
-        $stmt->bind_param("ssssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $workWithRescue, $otherRescueContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $additionalComments, $liabilityAgree, $parentGuardian, $otherComments, $ref1, $emergencyContact);
+        $stmt->bind_param("ssssssssssssssssssssssssssss", $fullName, $dob, $streetAddress, $city, $state, $homePhone, $workPhone, $cellPhone, $email, $employer, $contactEmployer, $allergies, $howHeard, $whyVolunteer, $workWithRescue, $otherRescueContact, $petsOwned, $animalExperience, $otherExperience, $volunteerPref, $availability, $volunteerOffPremises, $ref1, $additionalComments, $emergencyContact, $liabilityAgree, $parentGuardian, $otherComments);
 
         // Assign POST values to variables
         $fullName = $_POST['fullName'];
@@ -28,29 +28,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $allergies = $_POST['allergies'];
         $howHeard = $_POST['howHeard'];
         $whyVolunteer = $_POST['whyVolunteer'];
-        $workWithRescue = $_POST['workWithRescue'];
-        $otherRescueContact = $_POST['otherRescueContact'];
+        $workWithRescue = isset($_POST['workWithRescue']) ? $_POST['workWithRescue'] : '';        
+        $otherRescueContact = isset($_POST['otherRescueContact']) ? $_POST['otherRescueContact'] : '';
         $petsOwned = $_POST['petsOwned'];
         $animalExp = isset($_POST["animalExp"]) ? (is_array($_POST["animalExp"]) ? implode(", ", $_POST["animalExp"]) : $_POST["animalExp"]) : "";
         $otherSkills = isset($_POST["otherSkills"]) ? (is_array($_POST["otherSkills"]) ? implode(", ", $_POST["otherSkills"]) : $_POST["otherSkills"]) : "";
         $volunteerPref = isset($_POST["volunteerPref"]) ? (is_array($_POST["volunteerPref"]) ? implode(", ", $_POST["volunteerPref"]) : $_POST["volunteerPref"]) : "";
         $availability = isset($_POST["availability"]) ? (is_array($_POST["availability"]) ? implode(", ", $_POST["availability"]) : $_POST["availability"]) : "";
-        $volunteerOffPremises = $_POST['volunteerOffPremises'];
-        $ref1 = $_POST['ref1'];
+        $volunteerOffPremises = isset($_POST['volunteerOffPremises']) ? $_POST['volunteerOffPremises'] : '';        $ref1 = $_POST['ref1'];
         $additionalComments = $_POST['additionalComments'];
         $emergencyContact = $_POST['emergencyContact'];
         $liabilityAgree = $_POST['liabilityAgree'];
         $parentGuardian = $_POST['parentGuardian'];
-        $otherComments = $_POST['otherComments'];
+        $otherComments = isset($_POST['otherComments']) ? $_POST['otherComments'] : '';
 
-
-
-        // Execute the prepared statement
         if ($stmt->execute()) {
-            echo "New record inserted successfully.";
+            // PHP code executed successfully, now let's use JavaScript to show an alert
+            echo '<script type="text/javascript">alert("You Form has been filled Sucessfully. You will be contacted soon");</script>';
+            // Reset the form after successful submission
         } else {
             echo "Error: " . $stmt->error;
         }
+
+        
 
         // Close the statement
         $stmt->close();
@@ -82,6 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
 
     <!-- Favicon -->
     <link href="../Furrify-Web/img\logo.png" rel="icon">
@@ -1091,6 +1095,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Your existing JavaScript libraries and code -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="path/to/bootstrap.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -1160,6 +1165,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
         });
     });
+
+
+    window.onload = function() {
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        document.getElementById('volunteerform').reset();
+    }
+
     </script>
 </body>
 

@@ -19,6 +19,7 @@
                 <a href="Veterinarymain.php" class="nav-item nav-link text-black">Veterinary</a>
                 <a href="strayanimalsconnect.php" class="nav-item nav-link text-black">SAC</a>
                 <a href="Lost&Found.php" class="nav-item nav-link text-black">Lost & Found</a>
+                <a href="SSO.php" class="nav-item nav-link text-black">SSO</a>
             </div>
             <div class="d-flex align-items-center">
                 <a class="navbar-brand" href="?">
@@ -31,7 +32,6 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="?editprofile">Edit Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Account Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="assets/php/action.php?logout">Logout</a></li>
                             </ul>
