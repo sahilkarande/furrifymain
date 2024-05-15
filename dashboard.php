@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Furrify Marketplace</title>
+  <title>Furrify Admin</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <iframe src="http://192.168.1.3:8501" width="100%" height="600px"></iframe>
+    <iframe src="http://192.168.43.154:8502" width="100%" height="600px"></iframe>
 
     <div class="col-lg-12">
 

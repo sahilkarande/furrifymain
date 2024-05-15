@@ -1,7 +1,40 @@
 <?php
+// Database connection parameters
+$DB_HOST = 'localhost';
+$DB_USER = 'root';
+$DB_PASS = '';
+$DB_NAME = 'furrify3';
+
+// Establish a connection to the database
+$conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Fetch adoption entries from the database
+$sql = "SELECT * FROM pet_adoption";
+$result = mysqli_query($conn, $sql);
+
+// Generate HTML for each adoption entry with specific classes
+$adoption_entries_html = '';
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $adoption_entries_html .= '<div class="gallery-item">';
+        $adoption_entries_html .= '<img src="data:image/jpeg;base64,' . base64_encode($row['image']) . '" alt="Sample Image">';
+        $adoption_entries_html .= '<button class="adopt-button btn btn-primary" data-pet-id="' . $row['id'] . '">Adopt Me</button>';
+        $adoption_entries_html .= '<div class="pet-info">';
+        $adoption_entries_html .= '<p>Name: ' . $row['name'] . '</p>';
+        $adoption_entries_html .= '<p>Age: ' . $row['age'] . ' years</p>';
+        $adoption_entries_html .= '<p>Breed: ' . $row['breed'] . '</p>';
+        $adoption_entries_html .= '<p>Vaccination Status: ' . ($row['vaccination_status'] == 'Vaccinated' ? 'Yes' : 'No') . '</p>';
+        $adoption_entries_html .= '<p class="unique-id">ID: ' . $row['id'] . '</p>';
+        $adoption_entries_html .= '</div></div>';
+    }
+}
+
 // Include the database connection file
 require 'assets\Furrify-Web\db_connection.php';
-
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $otherSkills = isset($_POST["otherSkills"]) ? (is_array($_POST["otherSkills"]) ? implode(", ", $_POST["otherSkills"]) : $_POST["otherSkills"]) : "";
         $volunteerPref = isset($_POST["volunteerPref"]) ? (is_array($_POST["volunteerPref"]) ? implode(", ", $_POST["volunteerPref"]) : $_POST["volunteerPref"]) : "";
         $availability = isset($_POST["availability"]) ? (is_array($_POST["availability"]) ? implode(", ", $_POST["availability"]) : $_POST["availability"]) : "";
-        $volunteerOffPremises = isset($_POST['volunteerOffPremises']) ? $_POST['volunteerOffPremises'] : '';        $ref1 = $_POST['ref1'];
+        $volunteerOffPremises = isset($_POST['volunteerOffPremises']) ? $_POST['volunteerOffPremises'] : '';        
+        $ref1 = $_POST['ref1'];
         $additionalComments = $_POST['additionalComments'];
         $emergencyContact = $_POST['emergencyContact'];
         $liabilityAgree = $_POST['liabilityAgree'];
@@ -54,8 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $stmt->error;
         }
 
-        
-
         // Close the statement
         $stmt->close();
     } else {
@@ -64,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Close the connection
     $conn->close();
-}
+}}
 ?>
 
 
@@ -646,7 +678,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="mb-3">
             <label class="small mb-1" for="qrCode"><h5>QR Code for Payment:</h5></label>
-            <img src="images.png" alt="QR Code" style="max-width: 100%;" />
+            <img src="qrcode.jpeg" alt="QR Code" style="max-width: 10%;" />
         </div>
 
 
@@ -669,18 +701,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div id="adoptionSection" class="section" style="display: none;">
             <h2>Adoption Section</h2>
+
+
+
+
             <div class="gallery">
-        <!-- Sample images with Adopt Me buttons -->
-        <div class="gallery-item">
-            <img src="assets/images/pets/1.jpg" alt="Sample Image 1">
-            <button class="adopt-button btn btn-primary" data-pet-id="adoptpet1">Adopt Me</button>            <div class="pet-info">
-                <p>Name: Bella</p>
-                <p>Age: 2 years</p>
-                <p>Breed: Labrador Retriever</p>
-                <p>Vaccination Status: Yes</p>
-                <p class="unique-id">ID: adoptpet1</p>
+            <!-- Sample images with Adopt Me buttons -->
+                <div class="gallery-item">
+                    <img src="assets/images/pets/1.jpg" alt="Sample Image 1">
+                    <button class="adopt-button btn btn-primary" data-pet-id="adoptpet1">Adopt Me</button>            <div class="pet-info">
+                        <p>Name: Bella</p>
+                        <p>Age: 2 years</p>
+                        <p>Breed: Labrador Retriever</p>
+                        <p>Vaccination Status: Yes</p>
+                        <p class="unique-id">ID: adoptpet1</p>
+                </div>
             </div>
-        </div>
 
 
 <!-- Repeat this structure for each image and button -->
@@ -808,7 +844,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </button>
             </div>
             <div class="modal-body">
-                <p class="modal-id">ID: <span class="pet-id"></span></p>
+                
                 <form class="adopt-form">
                     <div class="form-group">
                         <label for="pet-id">Pet ID:</label>
